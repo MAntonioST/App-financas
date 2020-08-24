@@ -8,7 +8,10 @@ class Home extends React.Component{
   }
 
   componentDidMount(){ //para trazer dados para a view, quando iniciar a tela
-     axios.get('http://localhost:8080/api/2/saldo',{
+    const usuarioLogadoString = localStorage.getItem('_usuario_logado') //recuperando usuario logado, do localStorage
+    const usuarioLogado =JSON.parse(usuarioLogadoString)
+
+     axios.get(`http://localhost:8080/api/${usuarioLogado.id}/saldo`,{
      }).then( Response => {
              this.setState({saldo:Response.data})
            }).catch( error => {
