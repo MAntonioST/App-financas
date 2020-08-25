@@ -1,22 +1,28 @@
 import React from 'react'
-import axios from 'axios'
+import UsuarioService from '../app/service/usuarioService'
+
+
 class Home extends React.Component{
 
   state = {
     saldo: 0,
     id:""
   }
-
+  constructor(){
+    super()
+    this.usuarioService = new UsuarioService();
+  }
   componentDidMount(){ //para trazer dados para a view, quando iniciar a tela
-    const usuarioLogadoString = localStorage.getItem('_usuario_logado') //recuperando usuario logado, do localStorage
+    const usuarioLogadoString = localStorage.getItem('_usuario_logado') 
     const usuarioLogado =JSON.parse(usuarioLogadoString)
 
-     axios.get(`http://localhost:8080/api/${usuarioLogado.id}/saldo`,{
-     }).then( Response => {
-             this.setState({saldo:Response.data})
-           }).catch( error => {
-             console.error(error.response)
-           })
+    this.usuarioService
+            .obterSaldoPorUsuario(usuarioLogado.id)
+            .then( response => {
+                this.setState({ saldo: response.data})
+            }).catch(error => {
+                console.error(error.response)
+            });
   }
   render(){
        return(

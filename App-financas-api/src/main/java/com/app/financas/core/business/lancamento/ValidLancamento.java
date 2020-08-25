@@ -1,6 +1,7 @@
 package com.app.financas.core.business.lancamento;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,7 @@ public class ValidLancamento implements IStrategy<Lancamento> {
 				return aCase;
 			}
 		} else {
+			    lancamentoOptional.get().setDataCadastro(LocalDate.now());
 				lancamentoOptional.get().setStatus(StatusLancamento.PENDENTE);
 			    lancamentoDAO.save(lancamentoOptional.get());
 				aCase.setEntity(lancamentoOptional);
