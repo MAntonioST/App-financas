@@ -3,6 +3,7 @@ import Card from '../components/card';
 import FormGroup from '../components/form-group'
 import { withRouter } from 'react-router-dom'
 import UsuarioService from '../app/service/usuarioService'
+import LocalStorageService from '../app/service/localStorageService'
 
 class Login extends React.Component {
 
@@ -21,10 +22,10 @@ entrar = () => {
       senha:this.state.senha
      }).then( response => {
        //recuperando usuario logado e transformando em string
-       localStorage.setItem('_usuario_logado', JSON.stringify(response.data)) 
+       LocalStorageService.addItem('_usuario_logado',response.data) 
        this.props.history.push('/home')
      }).catch( erro => {
-        this.setState({mensagemErro: erro.response.data})
+         this.setState({mensagemErro: erro.response.data})
      })
   }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import UsuarioService from '../app/service/usuarioService'
-
+import LocalStorageService from '../app/service/localStorageService'
 
 class Home extends React.Component{
 
@@ -13,16 +13,15 @@ class Home extends React.Component{
     this.usuarioService = new UsuarioService();
   }
   componentDidMount(){ //para trazer dados para a view, quando iniciar a tela
-    const usuarioLogadoString = localStorage.getItem('_usuario_logado') 
-    const usuarioLogado =JSON.parse(usuarioLogadoString)
+    const usuarioLogado = LocalStorageService.obterItem('_usuario_logado') 
 
     this.usuarioService
-            .obterSaldoPorUsuario(usuarioLogado.id)
-            .then( response => {
-                this.setState({ saldo: response.data})
-            }).catch(error => {
-                console.error(error.response)
-            });
+        .obterSaldoPorUsuario(usuarioLogado.id)
+        .then( response => {
+            this.setState({ saldo: response.data})
+        }).catch(error => {
+            console.error(error.response)
+    });
   }
   render(){
        return(
