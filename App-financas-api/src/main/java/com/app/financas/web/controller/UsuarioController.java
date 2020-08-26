@@ -21,8 +21,13 @@ public class UsuarioController extends BaseController<Usuario, String> {
 
 	}
 
-	@RequestMapping(value = "usuarios", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<?> saveOrUpdate(@RequestBody Usuario aEntity) {
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<?> saveOrUpdate(@RequestBody UsuarioHelper usuarioHelper) {
+		
+		Usuario aEntity = new Usuario();
+		aEntity.setNome(usuarioHelper.getNome());
+		aEntity.setEmail(usuarioHelper.getEmail());
+		aEntity.setSenha(usuarioHelper.getSenha());
 		appBusinessCase = appFacade.save(aEntity);
 		if (appBusinessCase.hasMsg())
 			return ResponseEntity.badRequest().body(appBusinessCase.getMsg());
@@ -34,9 +39,9 @@ public class UsuarioController extends BaseController<Usuario, String> {
 	}
 
 	@RequestMapping(value = "findbyUsuarios", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<?> findByUsuario(@RequestBody Usuario aEntity) {
+	public @ResponseBody ResponseEntity<?> findByUsuario(@RequestBody UsuarioHelper usuarioHelpe) {
 
-		BusinessCase<?> appBusinessCase = appFacade.find(aEntity);
+		BusinessCase<?> appBusinessCase = appFacade.find(usuarioHelpe);
 		if (appBusinessCase.hasMsg())
 			return ResponseEntity.badRequest().body(appBusinessCase.getMsg());
 		if (appBusinessCase.hasEntities()) {
