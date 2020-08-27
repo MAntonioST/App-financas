@@ -17,7 +17,7 @@ import com.app.financas.domain.enun.StatusLancamento;
 
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/lancamentos")
 public class LancamentoController extends BaseController<Lancamento, String> {
 
 	public LancamentoController() {
@@ -25,7 +25,7 @@ public class LancamentoController extends BaseController<Lancamento, String> {
 
 	}
 
-	@RequestMapping(value = "lancamentos", method = RequestMethod.POST)
+	@RequestMapping(value = "salvar", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<?> saveOrUpdate(@RequestBody Lancamento aEntity) {
 		appBusinessCase = appFacade.save(aEntity);
 		if (appBusinessCase.hasMsg())

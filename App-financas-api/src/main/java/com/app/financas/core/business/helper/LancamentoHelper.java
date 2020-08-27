@@ -1,16 +1,22 @@
 package com.app.financas.core.business.helper;
 
 import java.math.BigDecimal;
-import lombok.Data;
+
+import com.app.financas.domain.Lancamento;
+
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 
-
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)
-public class LancamentoHelper {
+public class LancamentoHelper extends Lancamento{
 
+	private static final long serialVersionUID = 1L;
+	
 	
 	private Long id;
 	private String descricao;
