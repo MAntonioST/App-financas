@@ -75,7 +75,7 @@ class CadastroUsuario extends React.Component{
                                   className="form-control" 
                                   id="inputNome" 
                                   name="nome"
-                                  aria-describedby="emailHelp" 
+                                  aria-describedby="nomeHelp" 
                                   placeholder="Digite o Nome"
                                   onChange={e => this.setState({nome: e.target.value})}/>
                         </FormGroup>
@@ -93,7 +93,7 @@ class CadastroUsuario extends React.Component{
                                   className="form-control" 
                                   id="inputSenha" 
                                   name="senha"
-                                  aria-describedby="emailHelp" 
+                                  aria-describedby="senhalHelp" 
                                   placeholder="Digite a Senha"
                                   onChange={e => this.setState({senha: e.target.value})}/>
                         </FormGroup>
@@ -102,7 +102,7 @@ class CadastroUsuario extends React.Component{
                                   className="form-control" 
                                   id="inputRepitaSenha" 
                                   name="senha"
-                                  aria-describedby="emailHelp" 
+                                  aria-describedby="senhaHelp" 
                                   placeholder="Repita  a Senha"
                                   onChange={e => this.setState({senhaRepeticao: e.target.value})}/>
                         </FormGroup>
