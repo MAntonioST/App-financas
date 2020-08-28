@@ -3,7 +3,7 @@ import ApiService from '../apiservice'
 class LancamentoService extends ApiService {
 
   constructor(){
-      super('/api/lancamentos')
+      super('/api/lancamentos/findbyFiltro')
   }
 
   consultar(lancamentoFiltro){
@@ -17,6 +17,9 @@ class LancamentoService extends ApiService {
      }
      if(lancamentoFiltro.status){
       params = `${params}&status=${lancamentoFiltro.status}`
+     }
+     if(lancamentoFiltro.usuario){
+      params = `${params}&usuario=${lancamentoFiltro.usuario}`
      }
      return this.get(params);
   }
