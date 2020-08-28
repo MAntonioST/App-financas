@@ -12,6 +12,7 @@ import com.app.financas.core.IFacade;
 import com.app.financas.core.IStrategy;
 import com.app.financas.core.aplicacao.BusinessCase;
 import com.app.financas.core.business.lancamento.AtualizaStatusLancamento;
+import com.app.financas.core.business.lancamento.DeleteLancamento;
 import com.app.financas.core.business.lancamento.FindByLancamento;
 import com.app.financas.core.business.lancamento.ValidLancamento;
 import com.app.financas.core.business.usuario.AuthenticateUsuario;
@@ -32,7 +33,7 @@ public class AppFacade<T extends DomainEntity, R extends Object> implements IFac
 	private static final String UPDATE = "UPDATE";
 	private static final String FIND = "FIND";
 	private static final String FINDALL = "FINDALL";
-    
+	private static final String DELETE = "DELETE";
    
     @Autowired
     private FindByUsuario findByUsuario;
@@ -48,6 +49,8 @@ public class AppFacade<T extends DomainEntity, R extends Object> implements IFac
     private FindByLancamento findByLancamento;
     @Autowired
     private AtualizaStatusLancamento atualizaStatusLancamento;
+    @Autowired
+    private DeleteLancamento deletarLancamento;
    
 	
     private Map<String, Map<String, List<IStrategy>>> rns;
@@ -88,16 +91,18 @@ public class AppFacade<T extends DomainEntity, R extends Object> implements IFac
         List<IStrategy> rnsSaveLancamento = new ArrayList<IStrategy>();
         List<IStrategy> rnsFindByLancamento = new ArrayList<IStrategy>();
         List<IStrategy> rnsAtualizaStatusLancamento = new ArrayList<IStrategy>();
+        List<IStrategy> rnsdeletarLancamento = new ArrayList<IStrategy>();
     
         rnsSaveLancamento.add(validLancamento);
         rnsFindByLancamento.add(findByLancamento);
         rnsAtualizaStatusLancamento.add(atualizaStatusLancamento);
-        
+        rnsdeletarLancamento.add(deletarLancamento);
         
         Map<String, List<IStrategy>> rnsLancamento = new HashMap<String, List<IStrategy>>();
         rnsLancamento.put(SAVE, rnsSaveLancamento);
         rnsLancamento.put(FINDALL, rnsFindByLancamento);
         rnsLancamento.put(UPDATE, rnsAtualizaStatusLancamento);
+        rnsLancamento.put(DELETE, rnsdeletarLancamento);
         rns.put(Lancamento.class.getName(), rnsLancamento);
 
     }

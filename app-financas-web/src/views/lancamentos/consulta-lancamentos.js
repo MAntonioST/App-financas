@@ -27,11 +27,16 @@ class ConsutaLancamentos extends React.Component{
    }
 
   buscar = () => {
+     if(!this.state.ano){
+        messages.mensagemErro('O preenchimento do campo Ano é obrigatório!')
+        return false;
+     }
    const usuarioLogado = LocalStorageService.obterItem('_usuario_logado');
    const lancamentoFiltro = {
       ano: this.state.ano,
       mes: this.state.mes,
       tipo: this.state.tipo,
+      descricao:this.state.descricao,
       usuario: usuarioLogado.id
      } 
      this.service
@@ -47,30 +52,37 @@ class ConsutaLancamentos extends React.Component{
          console.log(error)
      })
   }
+
+   editar = (id) => {
+      this.props.history.push(`/cadastro-lancamentos/${id}`)
+   }
+
+   abrirConfirmacao = (lancamento) => {
+      this.setState({ showConfirmDialog : true, lancamentoDeletar: lancamento  })
+   }
+
+   cancelarDelecao = () => {
+      this.setState({ showConfirmDialog : false, lancamentoDeletar: {}  })
+   }
+
+   deletar = ( lancamento ) => {
+      this.service
+         .deletar(lancamento.id)
+         .then(response => {
+            const lancamentos = this.state.lancamentos;
+            const index = lancamentos.indexOf(lancamento)
+            lancamentos.splice(index, 1);
+            this.setState(lancamentos)
+            messages.mensagemSucesso('Lançamento deletado com sucesso!')
+         }).catch(error => {
+            messages.mensagemErro('Ocorreu um erro ao tentar deletar o Lançamento')
+         })
+   }
   render(){
      
-    const meses = [
-       { label: 'Selecione...', value: '' },
-       { label: 'Janeiro', value: 1 },
-       { label: 'Fevereiro', value: 2 },
-       { label: 'Março', value: 3 },
-       { label: 'Abril', value: 4 },
-       { label: 'Maio', value: 5 },
-       { label: 'Junho', value: 6 },
-       { label: 'Julho', value: 7 },
-       { label: 'Agosto', value: 8 },
-       { label: 'Setembro', value: 9 },
-       { label: 'Outubro', value: 10 },
-       { label: 'Novembro', value: 11 },
-       { label: 'Dezembro', value: 12 },
-    ]
-
-    const tipos = [
-      { label: 'Selecione...', value: '' },
-      { label: 'Despesa', value: 'DESPESA' },
-      { label: 'Receita', value: 'RECEITA' },
-    ]
-
+   const meses = this.service.obterListaMeses();
+   const tipos = this.service.obterListaTipos();
+  
      return(
         <Card title='Consulta Lançamentos'>
            <div className="row">
@@ -91,6 +103,14 @@ class ConsutaLancamentos extends React.Component{
                                  className="form-control" 
                                  lista={meses} />
                      </FormGroup>
+                     <FormGroup htmlFor="inputDesc" label="Descricao: ">
+                        <input type="text" 
+                               className="form-control" 
+                               id="inputDesc" 
+                               value={this.state.descricao}
+                               onChange={e => this.setState({descricao: e.target.descricao})}
+                               placeholder="Digite a Descricao" />
+                     </FormGroup>
                      <FormGroup  htmlFor="inputTipo" label="Tipo Lancamento: ">
                      <SelectMenu id="inputTipo" 
                                  value={this.state.tipo}
@@ -107,7 +127,9 @@ class ConsutaLancamentos extends React.Component{
            <div className="row">
                <div className="col-md-12">
                      <div className="bs-component">
-                        <LancamentosTable lancamentos={this.state.lancamentos} />
+                        <LancamentosTable lancamentos={this.state.lancamentos}
+                                          deleteAction={this.deletar} 
+                                          editAction={this.editar}/>
                      </div>
                </div>
            </div>

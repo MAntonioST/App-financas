@@ -1,6 +1,8 @@
 package com.app.financas.web.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +39,7 @@ public class LancamentoController extends BaseController<Lancamento, String> {
 		}
 	}
 
-	@RequestMapping(value = "findbyFiltro", method = RequestMethod.GET)
+	@GetMapping
 	public ResponseEntity<?> findByLancamentos(
 					@RequestParam(value ="descricao" , required = false) String descricao,
 					@RequestParam(value = "mes", required = false) Integer mes,
@@ -81,6 +83,23 @@ public class LancamentoController extends BaseController<Lancamento, String> {
 			return ResponseEntity.noContent().build();
 		}
 	}
+	
+	@DeleteMapping("{id}/deletar")
+	public  @ResponseBody ResponseEntity<?> deletar( @PathVariable("id") Long id ) {
+		Lancamento aEntity = new Lancamento();
+		 aEntity.setId(id);
+		 appBusinessCase = appFacade.delete(aEntity);
+			if (appBusinessCase.hasMsg())
+				return ResponseEntity.badRequest().body(appBusinessCase.getMsg());
+			else if (!appBusinessCase.hasMsg()) {
+				return ResponseEntity.ok().body(appBusinessCase.getEntity());
+			} else {
+				return ResponseEntity.noContent().build();
+			}
+		
+		
+	}
+	
 	
 	
 }
